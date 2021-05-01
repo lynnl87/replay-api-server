@@ -11,7 +11,7 @@ app.get('/v1/users/:username', function(request, response) {
         if (err) throw err;
         return response.send(result);
       });
-    console.log("weird");
+    console.log("Previous command is async?");
     //response.send('Hello DELETE');
 });
 
