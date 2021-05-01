@@ -1,12 +1,13 @@
 var express = require('express');
+const cors = require('cors')
 var app = express();
 var mysql = require('mysql2');
 const config = require('./config');
 var con = mysql.createConnection(config.db);
 
+app.use(cors());
 app.get('/v1/users/:username', function(request, response) {
     var username = request.params.username;
-    console.log(username);
       con.query("SELECT DISTINCT(player) FROM replay_data", function (err, result, fields) {
         if (err) throw err;
         return response.send(result);
