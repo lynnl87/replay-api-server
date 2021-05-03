@@ -16,10 +16,37 @@ app.get('/api/v1/users/:username', function(request, response) {
     //response.send('Hello DELETE');
 });
 
+app.get('/api/v1/users/:username/playerdata', function(request, response) {
+  var username = request.params.username;
+    con.query("SELECT * FROM replay_data WHERE player ='" + username +"'", function (err, result, fields) {
+      if (err) throw err;
+      return response.send(result);
+    });
+  console.log("Previous command is async?");
+  //response.send('Hello DELETE');
+});
+
 app.get('/api/v1/user_data/:username', function(request, response) {
   var username = request.params.username;
   console.log(username);
-    con.query("SELECT DISTINCT(hero), COUNT(hero) as totalPlayed , SUM(win = 2) as wins FROM `replay_data` WHERE player ='" + username + "' group by hero order by totalPlayed desc", function (err, result, fields) {
+    con.query("SELECT \
+    mp1.games_id, \
+    ANY_VALUE(mp1.player) as team_one_player, \
+    ANY_VALUE(mp1.hero) as team_one_hero, \
+    ANY_VALUE(mp1.team) as team_one_team, \
+    ANY_VALUE(mp1.win) as team_one_win, \
+    ANY_VALUE(mp2.player) as team_two_player, \
+    ANY_VALUE(mp2.hero) as team_two_hero, \
+    ANY_VALUE(mp2.team) as team_two_team, \
+    ANY_VALUE(mp2.win) as team_two_win \
+FROM \
+    replay_data mp1, \
+    replay_data mp2 \
+WHERE \
+    mp1.games_id = mp2.games_id AND mp1.player != mp2.player AND(\
+        mp1.player IN('" + username + "') AND mp2.player IN('squacoon', '" + username + "')\
+    )\
+GROUP BY mp1.games_id", function (err, result, fields) {
       if (err) throw err;
       return response.send(result);
     });
