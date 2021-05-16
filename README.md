@@ -6,8 +6,8 @@ Current routes:
 ### /api/v1/users/{username}
 Handles just getting distinct player data from the replay_data table.
 
-### /api/v1/users/{username}/playerdata
+### /api/v1/users/{username}/data
 Handles returning the rows from replay_data for a specific user.
 
-### /api/v1/user_data/{username}
-Handles returning specific data from replay_data where the user played in the same game as the user 'Squacoon'
+### /api/v1/users/{username}/vs/{opponent}
+Handles returning specific data from replay_data where the user played in the same game as the opponent
