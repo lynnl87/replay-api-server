@@ -6,11 +6,14 @@
     "hots-interfaces": "file:../hots-interfaces",
     "hots-parser": "file:../hots-parser",
     "mysql2": "^2.3.3",
+    "swagger-ui-express": "^4.4.0",
     "typescript": "^4.6.4",
-    "util": "^0.12.4"
+    "util": "^0.12.4",
+    "yamljs": "^0.3.0"
   },
   "scripts": {
-    "prestart": "tsc",
+    "copy": "cp openapi.yml dist/",
+    "prestart": "tsc && npm run copy",
     "start": "node dist/server.js",
     "lint": "eslint src/ --ext .ts"
   },

@@ -10,7 +10,10 @@ import CacheSystem from "./cache"
 import * as hots from "hots-parser";
 import path from "path";
 import { Response } from "express-serve-static-core";
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
 
+const swaggerFile = YAML.load('openapi.yml');
 const cacheSytem: CacheSystem = new CacheSystem(25);
 const PROCESSED = '/media/sf_vmdata/processed';
 const app: Express = express();
@@ -84,6 +87,9 @@ app.get('/api/v1/replays/data/:mapId', async function (request, response) {
     return response.sendStatus(500);
   }
 });
+
+// OpenAPI UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 const server: Server = app.listen(8081, function () {
   const host: string = (<AddressInfo>server.address()).address
