@@ -1,0 +1,76 @@
+openapi: '3.0.2'
+info:
+  title: replay server
+  version: '1.0'
+servers:
+  - url: http://lynn-replay:8081/api/v1
+components:
+  schemas:
+    ReplayRow:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The Row ID
+        games_id:
+          type: integer
+          description: The id of the game this maps to.
+        player:
+          type: integer
+          description: The id of the player.
+        hero:
+          type: string
+          description: Name of the hero played.
+        team:
+          type: integer
+          description: Value for which team they were on.
+        win:
+          type: integer
+          description: Value indicating if won or loss.
+        timestamp:
+          type: string
+          description: UTC Timestamp of when the game took place.
+        time_offset:
+          type: integer
+          description: Timezone offset.
+        map_id:
+          type: integer
+          description: The id of the map row.
+        version:
+          type: number
+          description: Map version
+        replayName:
+          type: string
+          description: Name of the replay.
+        map_name:
+          type: string
+          description: Name of the map.
+        playerId:
+          type: integer
+          description: Id of the player.
+        name:
+          type: string
+          description: Name of the player
+        tag:
+          type: integer
+          description: Battle.net tag.
+paths:
+  /replays/last/{count}:
+    get:
+      summary: Gets the last {count} replays.
+      parameters:
+        - in: path
+          name: count
+          schema:
+            type: integer
+          required: true
+          description: The number of replays to grab.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/ReplayRow'
